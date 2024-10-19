@@ -9,7 +9,7 @@ import java.util.List;
 
 public class MovieService {
 
-    private MovieDAO movieDAO;
+    private final MovieDAO movieDAO;
 
     public MovieService(MovieDAO movieDAO) {
         this.movieDAO = movieDAO;
@@ -17,9 +17,9 @@ public class MovieService {
 
     public List<Movie> buscarTodosOsFilmes() {
         try {
-            return movieDAO.buscarTodos();
+            return movieDAO.getAllMovies();
         } catch (IOException e) {
-            throw new CSVParseException("Erro ao fazer parse: "+e.getMessage());
+            throw new CSVParseException("Erro ao fazer parse: " + e.getMessage());
         }
     }
 }

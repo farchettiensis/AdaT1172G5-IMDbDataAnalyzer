@@ -7,13 +7,13 @@ import java.io.IOException;
 import java.util.List;
 
 public class MovieDAO {
-    private CSVParser csvParser;
+    private final CSVParser csvParser;
 
     public MovieDAO(CSVParser csvParser) {
         this.csvParser = csvParser;
     }
 
-    public List<Movie> buscarTodos() throws IOException {
-        return csvParser.buscarTodos();
+    public List<Movie> getAllMovies() throws IOException {
+        return csvParser.getAllMovies();
     }
 }

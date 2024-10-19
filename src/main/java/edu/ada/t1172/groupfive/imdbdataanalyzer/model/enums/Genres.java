@@ -1,7 +1,5 @@
 package edu.ada.t1172.groupfive.imdbdataanalyzer.model.enums;
 
-import java.util.List;
-
 public enum Genres {
     ACTION,
     ADVENTURE,
@@ -25,8 +23,8 @@ public enum Genres {
     SPORT,
     THRILLER,
     WAR,
-    WESTERN;
-
+    WESTERN,
+    UNKNOWN
 }
 
 
