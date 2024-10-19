@@ -23,20 +23,16 @@ public class CSVParser {
         return caminhoCSV;
     }
 
-    public List<Movie> buscarTodos() {
+    public List<Movie> buscarTodos() throws IOException {
         List<Movie> listaDeFilmes = new ArrayList<>();
-        try {
-            Files.lines(Paths.get(caminhoCSV))
-                    .skip(1)
-                    .map(linha -> linha.split(";"))
-                    .map(dados -> new Movie(dados[0],dados[1], getGenres(dados[2]),Double.parseDouble(dados[3]),Integer.parseInt(dados[4]),Integer.parseInt(dados[5])))
-                    .forEach(listaDeFilmes::add);
 
-            return listaDeFilmes;
+        Files.lines(Paths.get(caminhoCSV))
+                .skip(1)
+                .map(linha -> linha.split(";"))
+                .map(dados -> new Movie(dados[0], dados[1], getGenres(dados[2]), Double.parseDouble(dados[3]), Integer.parseInt(dados[4]), Integer.parseInt(dados[5])))
+                .forEach(listaDeFilmes::add);
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return listaDeFilmes;
     }
 
     private Set<Genres> getGenres(String genres) {

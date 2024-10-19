@@ -2,7 +2,9 @@ package edu.ada.t1172.groupfive.imdbdataanalyzer.service;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.dao.MovieDAO;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.util.exceptions.CSVParseException;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MovieService {
@@ -14,6 +16,10 @@ public class MovieService {
     }
 
     public List<Movie> buscarTodosOsFilmes() {
-        return movieDAO.buscarTodos();
+        try {
+            return movieDAO.buscarTodos();
+        } catch (IOException e) {
+            throw new CSVParseException("Erro ao fazer parse: "+e.getMessage());
+        }
     }
 }
