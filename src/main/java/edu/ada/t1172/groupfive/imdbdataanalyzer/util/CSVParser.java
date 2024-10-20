@@ -31,7 +31,6 @@ public class CSVParser {
 
     public List<Movie> getAllMovies() throws IOException {
         List<Movie> moviesList = new ArrayList<>();
-
         try (var lines = Files.lines(Paths.get(csvPath))) {
             lines.skip(1)
                     .map(line -> line.split(";"))

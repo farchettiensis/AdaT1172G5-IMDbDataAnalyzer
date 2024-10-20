@@ -20,7 +20,7 @@ public class MovieServiceImpl implements MovieService{
 
     public List<Movie> fetchAllMovies() {
         try {
-            return movieDAO.buscarTodos();
+            return movieDAO.getAllMovies();
         } catch (IOException e) {
             throw new CSVParseException("Erro ao fazer parse: "+e.getMessage());
         }

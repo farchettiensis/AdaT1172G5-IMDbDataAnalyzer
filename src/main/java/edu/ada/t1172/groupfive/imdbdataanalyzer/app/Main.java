@@ -1,15 +1,20 @@
 package edu.ada.t1172.groupfive.imdbdataanalyzer.app;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.dao.MovieDAO;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.model.enums.Genres;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.NathanQuestions;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.VictorFerreiraQuestions;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.service.MovieServiceImpl;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.CSVParser;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.util.Calculator;
+
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         String caminhoCSV = "src/main/resources/data.csv";
         MovieServiceImpl movieService = new MovieServiceImpl(new MovieDAO(new CSVParser(caminhoCSV)));
+        List<Movie> movies = movieService.fetchAllMovies();
 //
 //        System.out.println(
 //                movieService.getTopRatedMovie(movieService.getMoviesByYear(movieService.fetchAllMovies(), 2020))
@@ -33,6 +38,13 @@ public class Main {
         System.out.println(
                 victorFerreiraQuestions.questionOne()
         );
+
+        NathanQuestions nathanQuestions = new NathanQuestions(movieService);
+        nathanQuestions.getUnderRatedMovies(movies, 5).forEach(System.out::println);
+        nathanQuestions.getOverRatedMovies(movies, 5).forEach(System.out::println);
+
+        System.out.println("Maior nota lista: " + movies.stream().mapToDouble(Movie::getAverageRating).max().getAsDouble());
+        System.out.println("Menor nota lista: " + movies.stream().mapToDouble(Movie::getAverageRating).min().getAsDouble());
 
     }
 }
