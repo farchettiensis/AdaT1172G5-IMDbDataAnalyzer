@@ -7,6 +7,7 @@ import edu.ada.t1172.groupfive.imdbdataanalyzer.util.Calculator;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class NathanQuestions {
 
@@ -18,24 +19,39 @@ public class NathanQuestions {
 
     public List<Movie> getUnderRatedMovies(List<Movie> movieList, int quantity) {
         final double TOP10_PERCENT_MOST_RATED = Calculator.percentilCalc(movieList.stream()
-                .map(Movie::getAverageRating).collect(Collectors.toList()),0.90);
+                .map(Movie::getAverageRating).collect(Collectors.toList()), 0.90);
         final double TOP10_PERCENT_LESS_VOTED = Calculator.percentilCalc(movieList.stream()
-                .map(Movie::getNumVotes).collect(Collectors.toList()),0.10);
+                .map(Movie::getNumVotes).collect(Collectors.toList()), 0.10);
         return movieList.stream().filter(movie -> movie.getNumVotes() <= TOP10_PERCENT_LESS_VOTED)
-                .filter(movie -> movie.getAverageRating() >=  TOP10_PERCENT_MOST_RATED)
+                .filter(movie -> movie.getAverageRating() >= TOP10_PERCENT_MOST_RATED)
                 .sorted(Comparator.comparing(Movie::getAverageRating).reversed())
                 .limit(quantity).collect(Collectors.toList());
     }
 
     public List<Movie> getOverRatedMovies(List<Movie> movieList, int quantity) {
         final double TOP10_PERCENT_LESS_RATED = Calculator.percentilCalc(movieList.stream()
-                .map(Movie::getAverageRating).collect(Collectors.toList()),0.10);
+                .map(Movie::getAverageRating).collect(Collectors.toList()), 0.10);
         final double TOP10_PERCENT_MOST_VOTED = Calculator.percentilCalc(movieList.stream()
-                .map(Movie::getNumVotes).collect(Collectors.toList()),0.90);
+                .map(Movie::getNumVotes).collect(Collectors.toList()), 0.90);
         return movieList.stream().filter(movie -> movie.getNumVotes() >= TOP10_PERCENT_MOST_VOTED)
-                .filter(movie -> movie.getAverageRating() <=  TOP10_PERCENT_LESS_RATED)
+                .filter(movie -> movie.getAverageRating() <= TOP10_PERCENT_LESS_RATED)
                 .sorted(Comparator.comparing(Movie::getAverageRating).reversed())
                 .limit(quantity).collect(Collectors.toList());
+    }
+
+    public String getScoreTendencyOverYears(List<Movie> movieList) {
+        movieList.sort(Comparator.comparing(Movie::getReleaseYear).thenComparing(Movie::getTitle));
+
+        Long increase = IntStream.range(1, movieList.size()).filter(i -> movieList.get(i).getAverageRating() > movieList.get(i - 1).getAverageRating()).count();
+        Long decrease = IntStream.range(1, movieList.size()).filter(i -> movieList.get(i).getAverageRating() < movieList.get(i - 1).getAverageRating()).count();
+
+        if (increase > decrease) {
+            return "increased";
+        } else if (increase < decrease) {
+            return "decreased";
+        } else {
+            return "constant";
+        }
     }
 
 }
