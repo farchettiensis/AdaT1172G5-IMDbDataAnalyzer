@@ -13,9 +13,19 @@ public class Main {
 //        movieService.buscarTodosOsFilmes().stream().limit(100).forEach(System.out::println);
 
         System.out.println(
-                movieService.getTopRatedMovieByGenre(Genres.DRAMA)
+                movieService.getTopRatedMovie(movieService.getMoviesByYear(movieService.fetchAllMovies(), 2020))
         );
 
-        System.out.println(movieService.getTopRatedMovieByGenreAfterYear(Genres.DRAMA, 2000));
+        System.out.println(
+            movieService.getTopRatedMovie(
+                    movieService.getMoviesByGenre(
+                            movieService.fetchAllMovies(), Genres.DRAMA))
+        );
+
+
+        System.out.println(movieService.getMoviesByYear(
+                movieService.getMoviesByGenre(movieService.fetchAllMovies(), Genres.DRAMA),
+                1996
+        ));
     }
 }

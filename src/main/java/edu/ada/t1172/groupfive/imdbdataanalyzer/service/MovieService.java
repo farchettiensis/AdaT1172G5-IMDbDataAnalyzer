@@ -8,6 +8,7 @@ import edu.ada.t1172.groupfive.imdbdataanalyzer.util.exceptions.CSVParseExceptio
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MovieService {
 
@@ -17,7 +18,7 @@ public class MovieService {
         this.movieDAO = movieDAO;
     }
 
-    public List<Movie> buscarTodosOsFilmes() {
+    public List<Movie> fetchAllMovies() {
         try {
             return movieDAO.buscarTodos();
         } catch (IOException e) {
@@ -25,16 +26,22 @@ public class MovieService {
         }
     }
 
-    public Movie getTopRatedMovieByGenre(Genres genre){
-            return buscarTodosOsFilmes().stream()
-                    .filter(movie -> movie.getGenres().contains(genre))
-                    .max(Comparator.comparing(Movie::getAverageRating)).orElse(null);
+    public List<Movie> getMoviesByGenre(List<Movie> movies, Genres genre) {
+        return movies.stream()
+                .filter(movie -> movie.getGenres().contains(genre)).collect(Collectors.toList());
     }
 
-    public Movie getTopRatedMovieByGenreAfterYear(Genres genre, Integer year){
-        return buscarTodosOsFilmes().stream()
-                .filter(movie -> movie.getGenres().contains(genre) && movie.getReleaseYear() >= year)
+    public List<Movie> getMoviesByYear(List<Movie> movies, Integer year) {
+        return  movies.stream()
+                .filter(movie -> movie.getReleaseYear() == year)
+                .toList();
+    }
+
+    public Movie getTopRatedMovie(List<Movie> movies){
+        return movies.stream()
                 .max(Comparator.comparing(Movie::getAverageRating)).orElse(null);
     }
+
+
 
 }
