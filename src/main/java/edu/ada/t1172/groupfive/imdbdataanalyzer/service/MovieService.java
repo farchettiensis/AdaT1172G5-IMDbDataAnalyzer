@@ -1,25 +1,16 @@
 package edu.ada.t1172.groupfive.imdbdataanalyzer.service;
 
-import edu.ada.t1172.groupfive.imdbdataanalyzer.dao.MovieDAO;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.util.exceptions.CSVParseException;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.model.enums.Genres;
 
-import java.io.IOException;
 import java.util.List;
 
-public class MovieService {
+public interface MovieService {
+    List<Movie> fetchAllMovies();
 
-    private final MovieDAO movieDAO;
+    List<Movie> getMoviesByGenre(List<Movie> movies, Genres genre);
 
-    public MovieService(MovieDAO movieDAO) {
-        this.movieDAO = movieDAO;
-    }
+    List<Movie> getMoviesByYear(List<Movie> movies, Integer year);
 
-    public List<Movie> buscarTodosOsFilmes() {
-        try {
-            return movieDAO.getAllMovies();
-        } catch (IOException e) {
-            throw new CSVParseException("Erro ao fazer parse: " + e.getMessage());
-        }
-    }
+    Movie getTopRatedMovie(List<Movie> movies);
 }
