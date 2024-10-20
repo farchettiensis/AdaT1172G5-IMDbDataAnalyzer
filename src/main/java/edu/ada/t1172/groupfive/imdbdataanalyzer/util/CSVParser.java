@@ -10,40 +10,59 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 // TODO: Verificar se há mais a se implementar
 public class CSVParser {
-    String caminhoCSV;
+    private static final Logger logger = Logger.getLogger(CSVParser.class.getName());
+    private String csvPath;
 
-    public CSVParser(String caminhoCSV) {
-        this.caminhoCSV = caminhoCSV;
+    public CSVParser(String csvPath) {
+        this.csvPath = csvPath;
     }
 
-    public String getCaminhoCSV() {
-        return caminhoCSV;
+    public String getCSVPath() {
+        return csvPath;
     }
 
-    public List<Movie> buscarTodos() throws IOException {
-        List<Movie> listaDeFilmes = new ArrayList<>();
-
-        Files.lines(Paths.get(caminhoCSV))
-                .skip(1)
-                .map(linha -> linha.split(";"))
-                .map(dados -> new Movie(dados[0], dados[1], getGenres(dados[2]), Double.parseDouble(dados[3]), Integer.parseInt(dados[4]), Integer.parseInt(dados[5])))
-                .forEach(listaDeFilmes::add);
-
-        return listaDeFilmes;
+    public void setCSVPath(String csvPath) {
+        this.csvPath = csvPath;
     }
 
-    private Set<Genres> getGenres(String genres) {
-        Set<Genres> listaGeneros = new HashSet<>();
-        String[] generosString = genres.replace("\"","")
-                .replace(" ","")
-                .replace("-","_")
-                .split(",");
-        for (String genero : generosString) {
-            listaGeneros.add(Genres.valueOf(genero.toUpperCase()));
+    public List<Movie> getAllMovies() throws IOException {
+        List<Movie> moviesList = new ArrayList<>();
+
+        try (var lines = Files.lines(Paths.get(csvPath))) {
+            lines.skip(1)
+                    .map(line -> line.split(";"))
+                    .map(data -> new Movie(
+                            data[0],
+                            data[1],
+                            parseGenres(data[2]),
+                            Double.parseDouble(data[3]),
+                            Integer.parseInt(data[4]),
+                            Integer.parseInt(data[5])
+                    ))
+                    .forEach(moviesList::add);
         }
-        return listaGeneros;
+
+        return moviesList;
+    }
+
+    private Set<Genres> parseGenres(String genres) {
+        Set<Genres> genresSet = new HashSet<>();
+        String[] genresArray = genres.replace("\"", "")
+                .replace(" ", "")
+                .replace("-", "_")
+                .split(",");
+        for (String genre : genresArray) {
+            try {
+                genresSet.add(Genres.valueOf(genre.toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                genresSet.add(Genres.UNKNOWN);
+                logger.warning("Gênero desconhecido: " + genre);
+            }
+        }
+        return genresSet;
     }
 }
