@@ -10,9 +10,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MovieServiceImpl implements MovieService{
+public class MovieServiceImpl implements MovieService {
 
-    private MovieDAO movieDAO;
+    private final MovieDAO movieDAO;
 
     public MovieServiceImpl(MovieDAO movieDAO) {
         this.movieDAO = movieDAO;
@@ -20,9 +20,9 @@ public class MovieServiceImpl implements MovieService{
 
     public List<Movie> fetchAllMovies() {
         try {
-            return movieDAO.buscarTodos();
+            return movieDAO.getAllMovies();
         } catch (IOException e) {
-            throw new CSVParseException("Erro ao fazer parse: "+e.getMessage());
+            throw new CSVParseException("Erro ao fazer parse: " + e.getMessage());
         }
     }
 
@@ -34,17 +34,16 @@ public class MovieServiceImpl implements MovieService{
 
     @Override
     public List<Movie> getMoviesByYear(List<Movie> movies, Integer year) {
-        return  movies.stream()
+        return movies.stream()
                 .filter(movie -> movie.getReleaseYear() == year)
                 .toList();
     }
 
     @Override
-    public Movie getTopRatedMovie(List<Movie> movies){
+    public Movie getTopRatedMovie(List<Movie> movies) {
         return movies.stream()
                 .max(Comparator.comparing(Movie::getAverageRating)).orElse(null);
     }
-
 
 
 }
