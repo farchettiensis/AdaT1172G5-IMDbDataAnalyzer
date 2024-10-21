@@ -3,18 +3,20 @@ package edu.ada.t1172.groupfive.imdbdataanalyzer.questions;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.service.MovieService;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.Calculator;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.util.MovieChart;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class NathanQuestions {
 
     private MovieService movieService;
+    private MovieChart movieChart;
 
-    public NathanQuestions(MovieService movieService) {
+    public NathanQuestions(MovieService movieService, MovieChart movieChart) {
         this.movieService = movieService;
+        this.movieChart = movieChart;
     }
 
     public List<Movie> getUnderRatedMovies(List<Movie> movieList, int quantity) {
@@ -42,16 +44,26 @@ public class NathanQuestions {
     public String getScoreTendencyOverYears(List<Movie> movieList) {
         movieList.sort(Comparator.comparing(Movie::getReleaseYear).thenComparing(Movie::getTitle));
 
-        Long increase = IntStream.range(1, movieList.size()).filter(i -> movieList.get(i).getAverageRating() > movieList.get(i - 1).getAverageRating()).count();
-        Long decrease = IntStream.range(1, movieList.size()).filter(i -> movieList.get(i).getAverageRating() < movieList.get(i - 1).getAverageRating()).count();
+        int n = movieList.size();
 
-        if (increase > decrease) {
+        double xSum = movieList.stream().mapToDouble(Movie::getReleaseYear).sum();
+        double ySum = movieList.stream().mapToDouble(Movie::getAverageRating).sum();
+        double xySum = movieList.stream().mapToDouble(movie -> movie.getReleaseYear() * movie.getAverageRating()).sum();
+        double x2Sum = movieList.stream().mapToDouble(movie -> Math.pow(movie.getReleaseYear(), 2)).sum();
+
+        double angularCoef = (n * xySum - xSum * ySum) / (n * x2Sum - Math.pow(xSum, 2));
+
+        if (angularCoef > 0) {
             return "increased";
-        } else if (increase < decrease) {
+        } else if (angularCoef < 0) {
             return "decreased";
         } else {
             return "constant";
         }
+    }
+
+    public void showTendencyGraph() {
+        movieChart.initForTendency();
     }
 
 }
