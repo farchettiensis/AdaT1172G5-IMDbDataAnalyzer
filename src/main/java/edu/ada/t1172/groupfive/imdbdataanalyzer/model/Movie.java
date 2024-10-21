@@ -1,14 +1,21 @@
 package edu.ada.t1172.groupfive.imdbdataanalyzer.model;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.enums.Genres;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 import java.util.Set;
 
 // TODO: classe criada para usar no futuro caso utilizemos banco de dados
+@Entity
+@Table(name = "movies")
 public class Movie extends BaseModel {
+    @Id
     private String id;
     private String title;
+
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
     private Set<Genres> genres;
     private double averageRating;
     private int numVotes;
@@ -86,6 +93,6 @@ public class Movie extends BaseModel {
 
     @Override
     public String toString() {
-        return String.format("Title: %-66s Genres: %-35s Average rating: %-5s Number of votes: %-10s Release year: %s", title, genres, averageRating, numVotes, releaseYear);
+        return String.format("Title: %-66s Genre: %-35s Average rating: %-5s Number of votes: %-10s Release year: %s", title, genres, averageRating, numVotes, releaseYear);
     }
 }

@@ -6,14 +6,50 @@ import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.NathanQuestions;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.VictorFerreiraQuestions;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.service.MovieServiceImpl;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.CSVParser;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import org.h2.tools.Server;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+
+        try {
+            Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8080").start();
+            System.out.println("H2 started at http://localhost:8080");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
         String caminhoCSV = "src/main/resources/data.csv";
         MovieServiceImpl movieService = new MovieServiceImpl(new MovieDAO(new CSVParser(caminhoCSV)));
         List<Movie> movies = movieService.fetchAllMovies();
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("IMDbData");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            for (Movie movie : movies) {
+                em.persist(movie);
+            }
+            em.getTransaction().commit();
+            System.out.println("Sucess");
+
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+
+        } finally {
+            em.close();
+            emf.close();
+        }
 //
 //        System.out.println(
 //                movieService.getTopRatedMovie(movieService.getMoviesByYear(movieService.fetchAllMovies(), 2020))
