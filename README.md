@@ -7,6 +7,6 @@ Perguntas
 - 5 Quais os 10 filmes mais/menos bem avaliados dentre os filmes com menor quantidade de votos?
 - 6 Qual a tendência da avaliação ao longo do tempo?
 - 7 Quais os 5 filmes mais "subestimados" e os 5 mais "superestimados"?
-- 8 Qual a correlação entre o número de votos e a média de avaliação para filmes lançados após o ano 2000? 
-- 9 Quais os gêneros que apresentam maior variação de avaliação entre filmes lançados na década de 1990 e filmes lançados na década de 2010?
+- 8 Qual a correlação entre o número de votos e a média de avaliação para filmes lançados após o ano `year`?
+- 9 Quais os gêneros que apresentam maior variação de avaliação entre filmes lançados na década de 1990 e filmes lançados na década de 2010? -> victor
 - 10 Qual o filme com maior discrepância entre o número de votos e a média de avaliação, e qual o gênero predominante desses filmes?
