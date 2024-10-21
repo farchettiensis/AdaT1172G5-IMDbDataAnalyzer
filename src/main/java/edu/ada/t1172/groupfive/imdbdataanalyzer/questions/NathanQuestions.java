@@ -42,12 +42,18 @@ public class NathanQuestions {
     public String getScoreTendencyOverYears(List<Movie> movieList) {
         movieList.sort(Comparator.comparing(Movie::getReleaseYear).thenComparing(Movie::getTitle));
 
-        Long increase = IntStream.range(1, movieList.size()).filter(i -> movieList.get(i).getAverageRating() > movieList.get(i - 1).getAverageRating()).count();
-        Long decrease = IntStream.range(1, movieList.size()).filter(i -> movieList.get(i).getAverageRating() < movieList.get(i - 1).getAverageRating()).count();
+        int n = movieList.size();
 
-        if (increase > decrease) {
+        double xSum = movieList.stream().mapToDouble(Movie::getReleaseYear).sum();
+        double ySum = movieList.stream().mapToDouble(Movie::getAverageRating).sum();
+        double xySum = movieList.stream().mapToDouble(movie -> movie.getReleaseYear() * movie.getAverageRating()).sum();
+        double x2Sum = movieList.stream().mapToDouble(movie -> Math.pow(movie.getReleaseYear(), 2)).sum();
+
+        double angularCoef = (n * xySum - xSum * ySum) / (n * x2Sum - Math.pow(xSum, 2));
+
+        if (angularCoef > 0) {
             return "increased";
-        } else if (increase < decrease) {
+        } else if (angularCoef < 0) {
             return "decreased";
         } else {
             return "constant";
