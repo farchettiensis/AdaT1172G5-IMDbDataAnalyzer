@@ -2,7 +2,6 @@ package edu.ada.t1172.groupfive.imdbdataanalyzer.model;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.enums.Genres;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -87,13 +86,6 @@ public class Movie extends BaseModel {
 
     @Override
     public String toString() {
-        return "Movie{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", genres=" + genres +
-                ", averageRating=" + averageRating +
-                ", numVotes=" + numVotes +
-                ", releaseYear=" + releaseYear +
-                '}';
+        return String.format("Title: %-66s Genres: %-35s Average rating: %-5s Number of votes: %-10s Release year: %s", title, genres, averageRating, numVotes, releaseYear);
     }
 }

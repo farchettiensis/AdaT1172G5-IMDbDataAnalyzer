@@ -6,7 +6,6 @@ import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.NathanQuestions;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.VictorFerreiraQuestions;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.service.MovieServiceImpl;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.CSVParser;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.util.Calculator;
 
 import java.util.List;
 
@@ -40,11 +39,11 @@ public class Main {
         );
 
         NathanQuestions nathanQuestions = new NathanQuestions(movieService);
+        System.out.println("\nUnderRatedMovies:");
         nathanQuestions.getUnderRatedMovies(movies, 5).forEach(System.out::println);
+        System.out.println("\nOverRatedMovies:");
         nathanQuestions.getOverRatedMovies(movies, 5).forEach(System.out::println);
 
-        System.out.println("Maior nota lista: " + movies.stream().mapToDouble(Movie::getAverageRating).max().getAsDouble());
-        System.out.println("Menor nota lista: " + movies.stream().mapToDouble(Movie::getAverageRating).min().getAsDouble());
-
+        System.out.println("\nThe average rating over the years: " + nathanQuestions.getScoreTendencyOverYears(movies));
     }
 }
