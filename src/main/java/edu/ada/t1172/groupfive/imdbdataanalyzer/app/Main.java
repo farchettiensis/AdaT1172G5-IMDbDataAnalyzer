@@ -3,6 +3,7 @@ package edu.ada.t1172.groupfive.imdbdataanalyzer.app;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.dao.MovieDAO;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.NathanQuestions;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.VictorFariaQuestions;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.VictorFerreiraQuestions;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.service.MovieServiceImpl;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.CSVParser;
@@ -32,18 +33,21 @@ public class Main {
 //        ));
 //    }
 
-        VictorFerreiraQuestions victorFerreiraQuestions = new VictorFerreiraQuestions(movieService);
+//        VictorFerreiraQuestions victorFerreiraQuestions = new VictorFerreiraQuestions(movieService);
+//
+//        System.out.println(
+//                victorFerreiraQuestions.questionOne()
+//        );
+//
+//        NathanQuestions nathanQuestions = new NathanQuestions(movieService);
+//        System.out.println("\nUnderRatedMovies:");
+//        nathanQuestions.getUnderRatedMovies(movies, 5).forEach(System.out::println);
+//        System.out.println("\nOverRatedMovies:");
+//        nathanQuestions.getOverRatedMovies(movies, 5).forEach(System.out::println);
+//
+//        System.out.println("\nThe average rating over the years: " + nathanQuestions.getScoreTendencyOverYears(movies));
 
-        System.out.println(
-                victorFerreiraQuestions.questionOne()
-        );
-
-        NathanQuestions nathanQuestions = new NathanQuestions(movieService);
-        System.out.println("\nUnderRatedMovies:");
-        nathanQuestions.getUnderRatedMovies(movies, 5).forEach(System.out::println);
-        System.out.println("\nOverRatedMovies:");
-        nathanQuestions.getOverRatedMovies(movies, 5).forEach(System.out::println);
-
-        System.out.println("\nThe average rating over the years: " + nathanQuestions.getScoreTendencyOverYears(movies));
+        VictorFariaQuestions victorFariaQuestions = new VictorFariaQuestions(movieService);
+        System.out.println(victorFariaQuestions.getVoteRatingCorrelationForMoviesAfter(2000));
     }
 }
