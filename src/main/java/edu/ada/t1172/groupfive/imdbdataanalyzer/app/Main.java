@@ -33,9 +33,13 @@ public class Main {
         perguntasFernando.performAnalysis();
 
         LotharQuestions lotharQuestions = new LotharQuestions(movieService);
-        System.out.println("\nTop 5 Movies from 20th Century:");
+        System.out.println("\nTop 5 rated Movies from 20th Century:");
         lotharQuestions.getTopFiveMoviesFrom20thCentury(movies);
-        System.out.println("\nTop 5 Movies from 21st Century:");
+        System.out.println("\nTop 5 rated Movies from 21st Century:");
         lotharQuestions.getTopFiveMoviesFrom21stCentury(movies);
+        System.out.println("\nTop 10 rated Movies between less voted:");
+        lotharQuestions.getTopTenRatedMoviesFromLessNumVotes(movies);
+        System.out.println("\nLeast 10 rated Movies between less voted:");
+        lotharQuestions.getLeastTenRatedMoviesFromLessNumVotes(movies);
     }
 }
