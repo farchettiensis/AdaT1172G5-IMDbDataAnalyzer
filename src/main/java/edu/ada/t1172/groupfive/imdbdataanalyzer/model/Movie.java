@@ -14,10 +14,9 @@ public class Movie extends BaseModel {
     private String id;
     private String title;
 
-    @Transient
-//    @ElementCollection
-//    @JoinTable(name = "movie_genres", joinColumns = @JoinColumn(name = "movie_id"))
-//    @Enumerated(EnumType.STRING)
+    @ElementCollection
+    @JoinTable(name = "movie_genres", joinColumns = @JoinColumn(name = "movie_id"))
+    @Enumerated(EnumType.STRING)
     private Set<Genres> genres;
     private double averageRating;
     private int numVotes;
@@ -85,7 +84,22 @@ public class Movie extends BaseModel {
 
     }
 
+    public void setGenres(Set<Genres> genres) {
+        this.genres = genres;
+    }
+
+    public String getGenresString() {
+        return genresString;
+    }
+
+    public void setGenresString(String genresString) {
+        this.genresString = genresString;
+    }
+
     private String genreConverter(Set<Genres> genresList) {
+        if (genres == null) {
+            return null;
+        }
         return String.join(", ", genresList.stream().map(Genres::toString).toArray(String[]::new));
     }
 

@@ -2,8 +2,7 @@ package edu.ada.t1172.groupfive.imdbdataanalyzer.app;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.dao.MovieDAO;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.NathanQuestions;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.VictorFerreiraQuestions;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.model.enums.Genres;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.service.MovieServiceImpl;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.CSVParser;
 import jakarta.persistence.EntityManager;
@@ -11,8 +10,10 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.h2.tools.Server;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
@@ -32,6 +33,8 @@ public class Main {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("IMDbData");
         EntityManager em = emf.createEntityManager();
 
+        MovieDAO movieDAO = new MovieDAO(new CSVParser(caminhoCSV));
+
         try {
             em.getTransaction().begin();
             for (Movie movie : movies) {
@@ -50,36 +53,30 @@ public class Main {
             em.close();
             emf.close();
         }
-//
-//        System.out.println(
-//                movieService.getTopRatedMovie(movieService.getMoviesByYear(movieService.fetchAllMovies(), 2020))
-//        );
-//
-//        System.out.println(
-//            movieService.getTopRatedMovie(
-//                    movieService.getMoviesByGenre(
-//                            movieService.fetchAllMovies(), Genres.DRAMA))
-//        );
-//
-//
-//        System.out.println(movieService.getMoviesByYear(
-//                movieService.getMoviesByGenre(movieService.fetchAllMovies(), Genres.DRAMA),
-//                1996
-//        ));
-//    }
 
-        VictorFerreiraQuestions victorFerreiraQuestions = new VictorFerreiraQuestions(movieService);
+        try {
+            List<Movie> filmes = movieDAO.getAllMoviesFromDB();
+            filmes.stream().limit(20).forEach(System.out::println);
+            System.out.println();
+            Movie insertTeste = new Movie("tt1843303","VelociPastor",
+                    Set.of(Genres.HORROR,Genres.COMEDY),10d,1000000,2018);
+            movieService.saveMovie(insertTeste);
+            Movie searchTeste = movieService.getMovieById("tt0111161");
+            System.out.println(searchTeste);
+            System.out.println();
+            Movie updateTeste = new Movie(searchTeste.getId(),"Mudando aqui pra teste",
+                    searchTeste.getGenres(),0d,0,2020);
+            movieService.updateMovie("tt0111161",updateTeste);
+            System.out.println(movieService.getMovieById("tt0111161"));
 
-        System.out.println(
-                victorFerreiraQuestions.questionOne()
-        );
+            movieService.deleteMovie(movieService.getMovieById("tt0068646"));
 
-        NathanQuestions nathanQuestions = new NathanQuestions(movieService);
-        System.out.println("\nUnderRatedMovies:");
-        nathanQuestions.getUnderRatedMovies(movies, 5).forEach(System.out::println);
-        System.out.println("\nOverRatedMovies:");
-        nathanQuestions.getOverRatedMovies(movies, 5).forEach(System.out::println);
 
-        System.out.println("\nThe average rating over the years: " + nathanQuestions.getScoreTendencyOverYears(movies));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
     }
 }

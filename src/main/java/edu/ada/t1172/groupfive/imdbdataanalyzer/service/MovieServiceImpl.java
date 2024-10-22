@@ -19,11 +19,55 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public Movie saveMovie(Movie movie) {
+        movieDAO.openTransaction().save(movie).closeTransaction();
+        return movie;
+    }
+
+    @Override
+    public Movie getMovieById(String id) {
+        try {
+            return movieDAO.getMovieById(id);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void deleteMovie(Movie movie) {
+        movieDAO.openTransaction().delete(movie).closeTransaction();
+    }
+
+    @Override
+    public Movie updateMovie(String id, Movie movie) {
+        try {
+            movieDAO.openTransaction().update(id,movie).closeTransaction();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return movie;
+    }
+
+    @Override
+    public void closeService() {
+        movieDAO.closeDAO();
+    }
+
+    @Override
     public List<Movie> fetchAllMovies() {
         try {
             return movieDAO.getAllMovies();
         } catch (IOException e) {
             throw new CSVParseException("Erro ao fazer parse: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Movie> fetchAllMoviesFromDB() {
+        try {
+            return movieDAO.getAllMoviesFromDB();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
