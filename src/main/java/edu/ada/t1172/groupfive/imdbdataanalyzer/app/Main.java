@@ -21,34 +21,13 @@ public class Main {
         System.out.println(questions.getVoteRatingCorrelationForMoviesAfter(2023));
         System.out.println(questions.getGenresWithGreatestRatingVariationByDecade(1921));
 
-        System.out.println(
-                movieService.getTopRatedMovie(movieService.getMoviesByYear(movieService.fetchAllMovies(), 2020))
-        );
-
-        System.out.println(
-            movieService.getTopRatedMovie(
-                    movieService.getMoviesByGenre(
-                            movieService.fetchAllMovies(), Genres.DRAMA))
-        );
-
-
-        System.out.println(movieService.getMoviesByYear(
-                movieService.getMoviesByGenre(movieService.fetchAllMovies(), Genres.DRAMA),
-                1996
-        ));
-
-        VictorFerreiraQuestions victorFerreiraQuestions = new VictorFerreiraQuestions(movieService);
-
-        System.out.println(
-                victorFerreiraQuestions.questionOne()
-        );
-
         NathanQuestions nathanQuestions = new NathanQuestions(movieService);
         System.out.println("\nUnderRatedMovies:");
         nathanQuestions.getUnderRatedMovies(movies, 5).forEach(System.out::println);
         System.out.println("\nOverRatedMovies:");
         nathanQuestions.getOverRatedMovies(movies, 5).forEach(System.out::println);
-
         System.out.println("\nThe average rating over the years: " + nathanQuestions.getScoreTendencyOverYears(movies));
+
+
     }
 }
