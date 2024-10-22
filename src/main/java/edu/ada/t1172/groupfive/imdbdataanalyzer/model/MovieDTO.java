@@ -12,7 +12,6 @@ public record MovieDTO(
         int numVotes,
         int releaseYear
 ) {
-    // Lógica de validação dos dados
     public MovieDTO {
         if (id == null || id.isBlank()) {
             throw new IllegalArgumentException("ID vazio ou nulo.");

@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-// TODO: Verificar se há mais a se implementar
 public class CSVParser {
     private static final Logger logger = Logger.getLogger(CSVParser.class.getName());
     private String csvPath;
