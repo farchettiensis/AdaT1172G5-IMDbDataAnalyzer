@@ -4,13 +4,22 @@ import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.enums.Genres;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MovieService {
+
+    void csvParseToDB();
+    Movie saveMovie(Movie movie);
+    Movie getMovieById(String id);
+    void deleteMovie(Movie movie);
+    Movie updateMovie(String id, Movie movie);
+    void closeService();
     List<Movie> fetchAllMovies();
+    List<Movie> fetchAllMoviesFromDB();
 
-    List<Movie> getMoviesByGenre(List<Movie> movies, Genres genre);
+    Map<Genres, Double> getAverageRatingPerGenre(List<Movie> movies);
 
-    List<Movie> getMoviesByYear(List<Movie> movies, Integer year);
+    Map<Genres, Double> getAverageNumVotesPerGenre(List<Movie> movies);
 
-    Movie getTopRatedMovie(List<Movie> movies);
+    double calculateCorrelationBetweenVotesAndRatings(List<Movie> movies);
 }
