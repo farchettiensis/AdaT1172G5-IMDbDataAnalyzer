@@ -7,13 +7,13 @@ import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.*;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.H2ServerConfig;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.service.MovieServiceImpl;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.CSVParser;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.util.MovieChart;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
 
         H2ServerConfig.start(); // inicializacao do BD
         String caminhoCSV = "src/main/resources/data.csv";
@@ -33,6 +33,11 @@ public class Main {
 
         RatingTendencyAnalysis nathanQuestions = new RatingTendencyAnalysis(movieService);
         nathanQuestions.performAnalysis();
+
+        /*
+        * metodo getChart disponibiliza grafico atraves do JFrame
+         */
+        //nathanQuestions.getChart("Analise da nota sobre os anos",movies);
         System.out.println();
 
         HorrorGenreAnalysis perguntasFernando = new HorrorGenreAnalysis(movieService);
@@ -47,6 +52,7 @@ public class Main {
         lotharQuestions.getTopTenRatedMoviesFromLessNumVotes(movies);
         System.out.println("\nLeast 10 rated Movies between less voted:");
         lotharQuestions.getLeastTenRatedMoviesFromLessNumVotes(movies);
+
 
 
         /*
@@ -67,5 +73,6 @@ public class Main {
         System.out.println(movieService.getMovieById("tt0111161"));
 
         movieService.deleteMovie(movieService.getMovieById("tt0068646"));
+
     }
 }

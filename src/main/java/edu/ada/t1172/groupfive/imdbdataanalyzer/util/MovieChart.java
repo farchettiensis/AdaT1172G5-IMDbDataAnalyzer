@@ -39,7 +39,7 @@ public class MovieChart extends JFrame {
         Map<Integer, Double> moviesGroupedByYear_Average = movies.stream()
                 .collect(Collectors.groupingBy(Movie::getReleaseYear, Collectors.averagingDouble(Movie::getAverageRating)));
 
-        XYSeries avgRate = new XYSeries("Average Rating");
+        XYSeries avgRate = new XYSeries("Avaliacao Media");
 
         for (var entry : moviesGroupedByYear_Average.entrySet()) {
             avgRate.add(entry.getKey(), entry.getValue());
@@ -53,9 +53,9 @@ public class MovieChart extends JFrame {
 
     private JFreeChart createChartForTendency() {
         JFreeChart chart = ChartFactory.createXYLineChart(
-                "Score tendency over the years",
-                "Release year",
-                "Average Rating",
+                "Analise da nota media pelos anos",
+                "Ano de Lancamento",
+                "Nota media",
                 createDatasetForTendency(),
                 PlotOrientation.VERTICAL,
                 true, true, false);

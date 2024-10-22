@@ -2,6 +2,7 @@ package edu.ada.t1172.groupfive.imdbdataanalyzer.questions;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.service.MovieService;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.util.MovieChart;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.StatisticUtils;
 
 import java.util.ArrayList;
@@ -44,6 +45,11 @@ public class RatingTendencyAnalysis {
         System.out.println("\nFilmes mais \"superestimados\": ");
         List<Movie> overRatedMovies = getOverRatedMovies(movies, 5);
         overRatedMovies.forEach(System.out::println);
+    }
+
+    public void getChart(String title, List<Movie> movies) {
+        MovieChart movieChart = new MovieChart(title, movies);
+        movieChart.initForTendency();
     }
 
     public List<Movie> getUnderRatedMovies(List<Movie> movieList, int quantity) {
