@@ -7,21 +7,51 @@ import edu.ada.t1172.groupfive.imdbdataanalyzer.util.Calculator;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-public class NathanQuestions {
+public class RatingTendencyAnalysis {
+
+    /**
+     * Análise das seguintes questões:
+     *
+     * <ol>
+     *   <li>Qual a tendência da avaliação ao longo do tempo?</li>
+     *   <li>Quais os 5 filmes mais "subestimados" e os 5 mais "superestimados"?</li>
+     * </ol>
+     *
+     * @author Nathan L.
+     */
 
     private MovieService movieService;
 
-    public NathanQuestions(MovieService movieService) {
+
+    public RatingTendencyAnalysis(MovieService movieService) {
         this.movieService = movieService;
+    }
+    public void performAnalysis() {
+        List<Movie> movies = movieService.fetchAllMovies();
+        System.out.println("Qual a tendência da avaliação ao longo do tempo?");
+        System.out.println("A tendência é: " + getRatingTendencyOverYears(movies));
+
+        System.out.println();
+
+        System.out.println("Quais os 5 filmes mais \"subestimados\" e os 5 mais \"superestimados\"?");
+        System.out.println("Filmes mais \"subestimados\": ");
+        List<Movie> underRatedMovies = getUnderRatedMovies(movies, 5);
+        underRatedMovies.forEach(System.out::println);
+
+        System.out.println("\nFilmes mais \"superestimados\": ");
+        List<Movie> overRatedMovies = getOverRatedMovies(movies, 5);
+        overRatedMovies.forEach(System.out::println);
     }
 
     public List<Movie> getUnderRatedMovies(List<Movie> movieList, int quantity) {
+
         final double TOP10_PERCENT_MOST_RATED = Calculator.percentilCalc(movieList.stream()
                 .map(Movie::getAverageRating).collect(Collectors.toList()), 0.90);
+
         final double TOP10_PERCENT_LESS_VOTED = Calculator.percentilCalc(movieList.stream()
                 .map(Movie::getNumVotes).collect(Collectors.toList()), 0.10);
+
         return movieList.stream().filter(movie -> movie.getNumVotes() <= TOP10_PERCENT_LESS_VOTED)
                 .filter(movie -> movie.getAverageRating() >= TOP10_PERCENT_MOST_RATED)
                 .sorted(Comparator.comparing(Movie::getAverageRating).reversed())
@@ -29,17 +59,20 @@ public class NathanQuestions {
     }
 
     public List<Movie> getOverRatedMovies(List<Movie> movieList, int quantity) {
+
         final double TOP10_PERCENT_LESS_RATED = Calculator.percentilCalc(movieList.stream()
                 .map(Movie::getAverageRating).collect(Collectors.toList()), 0.10);
+
         final double TOP10_PERCENT_MOST_VOTED = Calculator.percentilCalc(movieList.stream()
                 .map(Movie::getNumVotes).collect(Collectors.toList()), 0.90);
+
         return movieList.stream().filter(movie -> movie.getNumVotes() >= TOP10_PERCENT_MOST_VOTED)
                 .filter(movie -> movie.getAverageRating() <= TOP10_PERCENT_LESS_RATED)
                 .sorted(Comparator.comparing(Movie::getAverageRating).reversed())
                 .limit(quantity).collect(Collectors.toList());
     }
 
-    public String getScoreTendencyOverYears(List<Movie> movieList) {
+    public String getRatingTendencyOverYears(List<Movie> movieList) {
         movieList.sort(Comparator.comparing(Movie::getReleaseYear).thenComparing(Movie::getTitle));
 
         int n = movieList.size();
@@ -52,12 +85,11 @@ public class NathanQuestions {
         double angularCoef = (n * xySum - xSum * ySum) / (n * x2Sum - Math.pow(xSum, 2));
 
         if (angularCoef > 0) {
-            return "increased";
+            return "aumentou";
         } else if (angularCoef < 0) {
-            return "decreased";
+            return "diminuiu";
         } else {
-            return "constant";
+            return "se manteve constante";
         }
     }
-
 }

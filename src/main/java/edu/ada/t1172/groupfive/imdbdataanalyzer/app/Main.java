@@ -2,7 +2,7 @@ package edu.ada.t1172.groupfive.imdbdataanalyzer.app;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.dao.MovieDAO;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.NathanQuestions;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.RatingTendencyAnalysis;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.VictorFerreiraQuestions;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.service.MovieServiceImpl;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.CSVParser;
@@ -38,12 +38,7 @@ public class Main {
                 victorFerreiraQuestions.questionOne()
         );
 
-        NathanQuestions nathanQuestions = new NathanQuestions(movieService);
-        System.out.println("\nUnderRatedMovies:");
-        nathanQuestions.getUnderRatedMovies(movies, 5).forEach(System.out::println);
-        System.out.println("\nOverRatedMovies:");
-        nathanQuestions.getOverRatedMovies(movies, 5).forEach(System.out::println);
-
-        System.out.println("\nThe average rating over the years: " + nathanQuestions.getScoreTendencyOverYears(movies));
+        RatingTendencyAnalysis ratingTendencyAnalysis = new RatingTendencyAnalysis(movieService);
+        ratingTendencyAnalysis.performAnalysis();
     }
 }
