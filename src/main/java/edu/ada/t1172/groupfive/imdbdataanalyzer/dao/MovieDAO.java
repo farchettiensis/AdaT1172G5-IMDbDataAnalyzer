@@ -37,22 +37,6 @@ public class MovieDAO {
 
     }
 
-//    public void csvParseToDB() {
-//        try {
-//            List<Movie> movies = getAllMovies();
-//            em.getTransaction().begin();
-//            for (Movie movie : movies) {
-//                em.persist(movie);
-//            }
-//            em.getTransaction().commit();
-//        } catch (Exception e) {
-//            if (em.getTransaction().isActive()) {
-//                em.getTransaction().rollback();
-//            }
-//            e.printStackTrace();
-//        }
-//    }
-
     public List<Movie> getAllMovies() throws IOException {
         return csvParser.getAllMovies();
     }

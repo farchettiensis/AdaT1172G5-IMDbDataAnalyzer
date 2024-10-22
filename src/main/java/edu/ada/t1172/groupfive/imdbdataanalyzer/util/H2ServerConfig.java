@@ -1,4 +1,4 @@
-package edu.ada.t1172.groupfive.imdbdataanalyzer.service;
+package edu.ada.t1172.groupfive.imdbdataanalyzer.util;
 
 import org.h2.tools.Server;
 

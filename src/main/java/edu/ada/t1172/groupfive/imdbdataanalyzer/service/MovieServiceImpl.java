@@ -73,7 +73,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> fetchAllMovies() {
         try {
-            return movieDAO.getAllMovies();
+            return movieDAO.getAllMoviesFromDB();
         } catch (IOException e) {
             throw new CSVParseException("Erro ao fazer parse: " + e.getMessage());
         }
