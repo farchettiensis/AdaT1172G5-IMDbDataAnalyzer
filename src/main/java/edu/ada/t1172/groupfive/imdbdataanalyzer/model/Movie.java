@@ -5,7 +5,6 @@ import edu.ada.t1172.groupfive.imdbdataanalyzer.model.enums.Genres;
 import java.util.Objects;
 import java.util.Set;
 
-// TODO: classe criada para usar no futuro caso utilizemos banco de dados
 public class Movie extends BaseModel {
     private String id;
     private String title;
