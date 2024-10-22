@@ -4,25 +4,22 @@ import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.service.MovieService;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.StatisticUtils;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Análise das seguintes questões:
+ *
+ * <ol>
+ *   <li>Qual a tendência da avaliação ao longo do tempo?</li>
+ *   <li>Quais os 5 filmes mais "subestimados" e os 5 mais "superestimados"?</li>
+ * </ol>
+ *
+ * @author Nathan L.
+ */
 public class RatingTendencyAnalysis {
-
-    /**
-     * Análise das seguintes questões:
-     *
-     * <ol>
-     *   <li>Qual a tendência da avaliação ao longo do tempo?</li>
-     *   <li>Quais os 5 filmes mais "subestimados" e os 5 mais "superestimados"?</li>
-     * </ol>
-     *
-     * @author Nathan L.
-     */
-
-    private MovieService movieService;
+    private final MovieService movieService;
 
 
     public RatingTendencyAnalysis(MovieService movieService) {
