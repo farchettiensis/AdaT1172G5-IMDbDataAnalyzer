@@ -1,6 +1,7 @@
 package edu.ada.t1172.groupfive.imdbdataanalyzer.dao;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.service.MovieService;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.CSVParser;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -21,6 +22,9 @@ public class MovieDAO {
     private EntityManagerFactory emf;
     private EntityManager em;
 
+    public EntityManager getEm() {
+        return em;
+    }
 
     public MovieDAO(CSVParser csvParser) {
         this.csvParser = csvParser;
@@ -30,7 +34,24 @@ public class MovieDAO {
             System.out.println("Erro: "+e.getMessage());
         }
         this.em = emf.createEntityManager();
+
     }
+
+//    public void csvParseToDB() {
+//        try {
+//            List<Movie> movies = getAllMovies();
+//            em.getTransaction().begin();
+//            for (Movie movie : movies) {
+//                em.persist(movie);
+//            }
+//            em.getTransaction().commit();
+//        } catch (Exception e) {
+//            if (em.getTransaction().isActive()) {
+//                em.getTransaction().rollback();
+//            }
+//            e.printStackTrace();
+//        }
+//    }
 
     public List<Movie> getAllMovies() throws IOException {
         return csvParser.getAllMovies();

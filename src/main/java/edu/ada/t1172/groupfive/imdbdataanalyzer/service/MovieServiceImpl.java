@@ -19,6 +19,23 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public void csvParseToDB() {
+        try {
+            List<Movie> movies = movieDAO.getAllMovies();
+            movieDAO.openTransaction();
+            for (Movie movie : movies) {
+                movieDAO.save(movie);
+            }
+            movieDAO.closeTransaction();
+        } catch (Exception e) {
+            if (movieDAO.getEm().getTransaction().isActive()) {
+                movieDAO.getEm().getTransaction().rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public Movie saveMovie(Movie movie) {
         movieDAO.openTransaction().save(movie).closeTransaction();
         return movie;

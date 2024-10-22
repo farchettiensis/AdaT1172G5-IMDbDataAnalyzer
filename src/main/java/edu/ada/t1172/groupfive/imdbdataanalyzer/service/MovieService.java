@@ -8,6 +8,7 @@ import java.util.Map;
 
 public interface MovieService {
 
+    void csvParseToDB();
     Movie saveMovie(Movie movie);
     Movie getMovieById(String id);
     void deleteMovie(Movie movie);

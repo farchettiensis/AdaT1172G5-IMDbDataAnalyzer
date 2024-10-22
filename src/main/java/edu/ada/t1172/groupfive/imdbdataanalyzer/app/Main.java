@@ -28,53 +28,27 @@ public class Main {
 
         String caminhoCSV = "src/main/resources/data.csv";
         MovieServiceImpl movieService = new MovieServiceImpl(new MovieDAO(new CSVParser(caminhoCSV)));
-        List<Movie> movies = movieService.fetchAllMovies();
 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("IMDbData");
-        EntityManager em = emf.createEntityManager();
-
-        MovieDAO movieDAO = new MovieDAO(new CSVParser(caminhoCSV));
-
-        try {
-            em.getTransaction().begin();
-            for (Movie movie : movies) {
-                em.persist(movie);
-            }
-            em.getTransaction().commit();
-            System.out.println("Sucess");
-
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            e.printStackTrace();
-
-        } finally {
-            em.close();
-            emf.close();
-        }
-
-        try {
-            List<Movie> filmes = movieDAO.getAllMoviesFromDB();
-            filmes.stream().limit(20).forEach(System.out::println);
-            System.out.println();
-            Movie insertTeste = new Movie("tt1843303","VelociPastor",
-                    Set.of(Genres.HORROR,Genres.COMEDY),10d,1000000,2018);
-            movieService.saveMovie(insertTeste);
-            Movie searchTeste = movieService.getMovieById("tt0111161");
-            System.out.println(searchTeste);
-            System.out.println();
-            Movie updateTeste = new Movie(searchTeste.getId(),"Mudando aqui pra teste",
-                    searchTeste.getGenres(),0d,0,2020);
-            movieService.updateMovie("tt0111161",updateTeste);
-            System.out.println(movieService.getMovieById("tt0111161"));
-
-            movieService.deleteMovie(movieService.getMovieById("tt0068646"));
+        movieService.csvParseToDB();
 
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        List<Movie> filmes = movieService.fetchAllMoviesFromDB();
+        filmes.stream().limit(20).forEach(System.out::println);
+        System.out.println();
+        Movie insertTeste = new Movie("tt1843303","VelociPastor",
+                Set.of(Genres.HORROR,Genres.COMEDY),10d,1000000,2018);
+        movieService.saveMovie(insertTeste);
+        Movie searchTeste = movieService.getMovieById("tt0111161");
+        System.out.println(searchTeste);
+        System.out.println();
+        Movie updateTeste = new Movie(searchTeste.getId(),"Mudando aqui pra teste",
+                searchTeste.getGenres(),0d,0,2020);
+        movieService.updateMovie("tt0111161",updateTeste);
+        System.out.println(movieService.getMovieById("tt0111161"));
+
+        movieService.deleteMovie(movieService.getMovieById("tt0068646"));
+
+
 
 
 
