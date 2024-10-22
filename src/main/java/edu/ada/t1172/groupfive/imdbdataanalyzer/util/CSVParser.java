@@ -28,6 +28,7 @@ public class CSVParser {
         this.csvPath = csvPath;
     }
 
+
     public List<Movie> getAllMovies() throws IOException {
         List<Movie> moviesList = new ArrayList<>();
         try (var lines = Files.lines(Paths.get(csvPath))) {
