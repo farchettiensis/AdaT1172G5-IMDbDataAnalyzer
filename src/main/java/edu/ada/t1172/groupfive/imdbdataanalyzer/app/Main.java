@@ -21,13 +21,10 @@ public class Main {
         VictorFariaQuestions questions = new VictorFariaQuestions(movieService);
         System.out.println(questions.getVoteRatingCorrelationForMoviesAfter(2023));
         System.out.println(questions.getGenresWithGreatestRatingVariationByDecade(1921));
+        System.out.println();
 
-        NathanQuestions nathanQuestions = new NathanQuestions(movieService);
-        System.out.println("\nUnderRatedMovies:");
-        nathanQuestions.getUnderRatedMovies(movies, 5).forEach(System.out::println);
-        System.out.println("\nOverRatedMovies:");
-        nathanQuestions.getOverRatedMovies(movies, 5).forEach(System.out::println);
-        System.out.println("\nThe average rating over the years: " + nathanQuestions.getScoreTendencyOverYears(movies));
+        RatingTendencyAnalysis nathanQuestions = new RatingTendencyAnalysis(movieService);
+        nathanQuestions.performAnalysis();
 
         HorrorGenreAnalysis perguntasFernando = new HorrorGenreAnalysis(movieService);
         perguntasFernando.performAnalysis();
