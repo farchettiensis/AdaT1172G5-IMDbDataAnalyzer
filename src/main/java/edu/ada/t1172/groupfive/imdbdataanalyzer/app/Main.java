@@ -2,10 +2,7 @@ package edu.ada.t1172.groupfive.imdbdataanalyzer.app;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.dao.MovieDAO;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.HorrorGenreAnalysis;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.NathanQuestions;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.VictorFariaQuestions;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.VictorFerreiraQuestions;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.*;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.service.MovieServiceImpl;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.CSVParser;
 
@@ -34,5 +31,15 @@ public class Main {
 
         HorrorGenreAnalysis perguntasFernando = new HorrorGenreAnalysis(movieService);
         perguntasFernando.performAnalysis();
+
+        LotharQuestions lotharQuestions = new LotharQuestions(movieService);
+        System.out.println("\nTop 5 rated Movies from 20th Century:");
+        lotharQuestions.getTopFiveMoviesFrom20thCentury(movies);
+        System.out.println("\nTop 5 rated Movies from 21st Century:");
+        lotharQuestions.getTopFiveMoviesFrom21stCentury(movies);
+        System.out.println("\nTop 10 rated Movies between less voted:");
+        lotharQuestions.getTopTenRatedMoviesFromLessNumVotes(movies);
+        System.out.println("\nLeast 10 rated Movies between less voted:");
+        lotharQuestions.getLeastTenRatedMoviesFromLessNumVotes(movies);
     }
 }
