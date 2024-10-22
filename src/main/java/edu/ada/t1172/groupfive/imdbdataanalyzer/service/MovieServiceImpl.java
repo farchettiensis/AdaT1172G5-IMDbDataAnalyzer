@@ -6,7 +6,10 @@ import edu.ada.t1172.groupfive.imdbdataanalyzer.model.enums.Genres;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.exceptions.CSVParseException;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MovieServiceImpl implements MovieService {
@@ -44,37 +47,13 @@ public class MovieServiceImpl implements MovieService {
                 .max(Comparator.comparing(Movie::getAverageRating)).orElse(null);
     }
 
-    // TODO: feito com duas abordagens, deixar apenas uma depois dos testes
-    @Override
     public Map<Genres, Double> getAverageRatingPerGenre(List<Movie> movies) {
-        Map<Genres, Double> totalRatings = new HashMap<>();
-        Map<Genres, Integer> counts = new HashMap<>();
-
-        for (Movie movie : movies) {
-            double rating = movie.getAverageRating();
-            for (Genres genre : movie.getGenres()) {
-                totalRatings.merge(genre, rating, Double::sum);
-                counts.merge(genre, 1, Integer::sum);
-            }
-        }
-
-        Map<Genres, Double> averageRatings = new HashMap<>();
-        for (Genres genre : totalRatings.keySet()) {
-            double total = totalRatings.get(genre);
-            int count = counts.get(genre);
-            averageRatings.put(genre, total / count);
-        }
-
-        return averageRatings;
-    }
-
-    public Map<Genres, Double> getAverageRatingPerGenre2(List<Movie> movies) {
         return Arrays.stream(Genres.values())
                 .collect(Collectors.toMap(
                         genre -> genre,
                         genre -> movies.stream()
                                 .filter(movie -> movie.getGenres().contains(genre))
-                                .mapToDouble(Movie::getAverageRating)
+                                .mapToDouble(movie -> movie.getAverageRating())
                                 .average()
                                 .orElse(0.0)
                 ));
