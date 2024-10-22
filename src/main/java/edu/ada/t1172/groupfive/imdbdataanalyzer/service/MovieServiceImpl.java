@@ -7,7 +7,6 @@ import edu.ada.t1172.groupfive.imdbdataanalyzer.util.exceptions.CSVParseExceptio
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,24 +28,6 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getMoviesByGenre(List<Movie> movies, Genres genre) {
-        return movies.stream()
-                .filter(movie -> movie.getGenres().contains(genre)).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Movie> getMoviesByYear(List<Movie> movies, Integer year) {
-        return movies.stream()
-                .filter(movie -> movie.getReleaseYear() == year)
-                .toList();
-    }
-
-    @Override
-    public Movie getTopRatedMovie(List<Movie> movies) {
-        return movies.stream()
-                .max(Comparator.comparing(Movie::getAverageRating)).orElse(null);
-    }
-
     public Map<Genres, Double> getAverageRatingPerGenre(List<Movie> movies) {
         return Arrays.stream(Genres.values())
                 .collect(Collectors.toMap(
@@ -58,5 +39,4 @@ public class MovieServiceImpl implements MovieService {
                                 .orElse(0.0)
                 ));
     }
-
 }
