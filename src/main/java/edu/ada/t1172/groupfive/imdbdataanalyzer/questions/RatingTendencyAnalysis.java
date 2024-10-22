@@ -2,8 +2,9 @@ package edu.ada.t1172.groupfive.imdbdataanalyzer.questions;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.service.MovieService;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.util.Calculator;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.util.StatisticUtils;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,10 +28,11 @@ public class RatingTendencyAnalysis {
     public RatingTendencyAnalysis(MovieService movieService) {
         this.movieService = movieService;
     }
+
     public void performAnalysis() {
         List<Movie> movies = movieService.fetchAllMovies();
         System.out.println("Qual a tendência da avaliação ao longo do tempo?");
-        System.out.println("A tendência é: " + getRatingTendencyOverYears(movies));
+        System.out.println("A tendência de avaliação: " + getRatingTendencyOverYears(movies));
 
         System.out.println();
 
@@ -46,10 +48,10 @@ public class RatingTendencyAnalysis {
 
     public List<Movie> getUnderRatedMovies(List<Movie> movieList, int quantity) {
 
-        final double TOP10_PERCENT_MOST_RATED = Calculator.percentilCalc(movieList.stream()
+        final double TOP10_PERCENT_MOST_RATED = StatisticUtils.percentilCalc(movieList.stream()
                 .map(Movie::getAverageRating).collect(Collectors.toList()), 0.90);
 
-        final double TOP10_PERCENT_LESS_VOTED = Calculator.percentilCalc(movieList.stream()
+        final double TOP10_PERCENT_LESS_VOTED = StatisticUtils.percentilCalc(movieList.stream()
                 .map(Movie::getNumVotes).collect(Collectors.toList()), 0.10);
 
         return movieList.stream().filter(movie -> movie.getNumVotes() <= TOP10_PERCENT_LESS_VOTED)
@@ -60,10 +62,10 @@ public class RatingTendencyAnalysis {
 
     public List<Movie> getOverRatedMovies(List<Movie> movieList, int quantity) {
 
-        final double TOP10_PERCENT_LESS_RATED = Calculator.percentilCalc(movieList.stream()
+        final double TOP10_PERCENT_LESS_RATED = StatisticUtils.percentilCalc(movieList.stream()
                 .map(Movie::getAverageRating).collect(Collectors.toList()), 0.10);
 
-        final double TOP10_PERCENT_MOST_VOTED = Calculator.percentilCalc(movieList.stream()
+        final double TOP10_PERCENT_MOST_VOTED = StatisticUtils.percentilCalc(movieList.stream()
                 .map(Movie::getNumVotes).collect(Collectors.toList()), 0.90);
 
         return movieList.stream().filter(movie -> movie.getNumVotes() >= TOP10_PERCENT_MOST_VOTED)
@@ -75,14 +77,10 @@ public class RatingTendencyAnalysis {
     public String getRatingTendencyOverYears(List<Movie> movieList) {
         movieList.sort(Comparator.comparing(Movie::getReleaseYear).thenComparing(Movie::getTitle));
 
-        int n = movieList.size();
+        List<Double> xList = movieList.stream().map(Movie::getReleaseYear).map(Integer::doubleValue).collect(Collectors.toList());
+        List<Double> yList = movieList.stream().map(Movie::getAverageRating).collect(Collectors.toList());
 
-        double xSum = movieList.stream().mapToDouble(Movie::getReleaseYear).sum();
-        double ySum = movieList.stream().mapToDouble(Movie::getAverageRating).sum();
-        double xySum = movieList.stream().mapToDouble(movie -> movie.getReleaseYear() * movie.getAverageRating()).sum();
-        double x2Sum = movieList.stream().mapToDouble(movie -> Math.pow(movie.getReleaseYear(), 2)).sum();
-
-        double angularCoef = (n * xySum - xSum * ySum) / (n * x2Sum - Math.pow(xSum, 2));
+        double angularCoef = StatisticUtils.linearRegression(xList, yList);
 
         if (angularCoef > 0) {
             return "aumentou";
