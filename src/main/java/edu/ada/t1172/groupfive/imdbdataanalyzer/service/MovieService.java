@@ -9,8 +9,6 @@ import java.util.Map;
 public interface MovieService {
     List<Movie> fetchAllMovies();
 
-    List<Movie> getMoviesByGenre(List<Movie> movies, Genres genre);
-
     Map<Genres, Double> getAverageRatingPerGenre(List<Movie> movies);
 
     Map<Genres, Double> getAverageNumVotesPerGenre(List<Movie> movies);

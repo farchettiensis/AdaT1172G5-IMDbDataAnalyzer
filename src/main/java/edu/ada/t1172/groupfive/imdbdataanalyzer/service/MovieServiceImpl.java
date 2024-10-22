@@ -31,13 +31,6 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getMoviesByGenre(List<Movie> movies, Genres genre) {
-        return movies.stream()
-                .filter(movie -> movie.getGenres().contains(genre))
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public Map<Genres, Double> getAverageRatingPerGenre(List<Movie> movies) {
         return Arrays.stream(Genres.values())
                 .collect(Collectors.toMap(

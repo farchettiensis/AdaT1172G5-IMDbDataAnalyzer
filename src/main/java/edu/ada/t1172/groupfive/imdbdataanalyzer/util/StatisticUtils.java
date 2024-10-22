@@ -3,20 +3,6 @@ package edu.ada.t1172.groupfive.imdbdataanalyzer.util;
 import java.util.List;
 
 public class StatisticUtils {
-    public static String interpretLinearRegression(double slope, double pValue) {
-        if (pValue < 0.05) {
-            if (slope > 0) {
-                return "Há uma tendência de aumento estatisticamente significativa nas avaliações médias ao longo dos anos.";
-            } else if (slope < 0) {
-                return "Há uma tendência de queda estatisticamente significativa nas avaliações médias ao longo dos anos.";
-            } else {
-                return "As avaliações médias têm se mantido constantes ao longo dos anos.";
-            }
-        } else {
-            return "Não há uma tendência estatisticamente significativa nas avaliações médias ao longo dos anos.";
-        }
-    }
-
     public static double calculateCorrelation(List<Double> xList, List<Double> yList) {
         if (xList == null || yList == null || xList.size() != yList.size() || xList.isEmpty()) {
             throw new IllegalArgumentException("As listas não podem ser nulas, devem ter o mesmo tamanho e não podem ser vazias.");

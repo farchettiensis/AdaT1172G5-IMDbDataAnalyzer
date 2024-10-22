@@ -2,7 +2,6 @@ package edu.ada.t1172.groupfive.imdbdataanalyzer.util;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class FileUtils {
         List<Integer> years = new ArrayList<>(averageRatingsByYear.keySet());
         Collections.sort(years);
 
-        try (PrintWriter writer = new PrintWriter(new File(filename))) {
+        try (PrintWriter writer = new PrintWriter(filename)) {
             writer.println("Ano,AvaliacaoMedia");
             for (Integer year : years) {
                 Double avgRating = averageRatingsByYear.get(year);
