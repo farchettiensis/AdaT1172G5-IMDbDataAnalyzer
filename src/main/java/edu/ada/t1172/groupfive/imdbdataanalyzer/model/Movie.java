@@ -14,12 +14,17 @@ public class Movie extends BaseModel {
     private String id;
     private String title;
 
-    @ElementCollection
-    @Enumerated(EnumType.STRING)
+    @Transient
+//    @ElementCollection
+//    @JoinTable(name = "movie_genres", joinColumns = @JoinColumn(name = "movie_id"))
+//    @Enumerated(EnumType.STRING)
     private Set<Genres> genres;
     private double averageRating;
     private int numVotes;
     private int releaseYear;
+
+    @Column(name = "genres")
+    private String genresString;
 
     public Movie() {
     }
@@ -31,6 +36,7 @@ public class Movie extends BaseModel {
         this.averageRating = averageRating;
         this.numVotes = numVotes;
         this.releaseYear = releaseYear;
+        this.genresString = genreConverter(genres);
     }
 
     public String getId() {
@@ -76,7 +82,13 @@ public class Movie extends BaseModel {
 
     public void setReleaseYear(int releaseYear) {
         this.releaseYear = releaseYear;
+
     }
+
+    private String genreConverter(Set<Genres> genresList) {
+        return String.join(", ", genresList.stream().map(Genres::toString).toArray(String[]::new));
+    }
+
 
     @Override
     public boolean equals(Object o) {
