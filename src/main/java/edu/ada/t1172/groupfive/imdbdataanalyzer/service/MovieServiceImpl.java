@@ -7,10 +7,7 @@ import edu.ada.t1172.groupfive.imdbdataanalyzer.util.StatisticUtils;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.exceptions.CSVParseException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MovieServiceImpl implements MovieService {
@@ -64,17 +61,18 @@ public class MovieServiceImpl implements MovieService {
         List<Double> avgRatingsList = new ArrayList<>();
         List<Double> avgNumVotesList = new ArrayList<>();
 
-        for (Genres genre : Genres.values()) {
-            Double avgRating = averageRatings.get(genre);
-            Double avgNumVotesValue = averageNumVotes.get(genre);
-
-            if (avgRating != null && avgNumVotesValue != null && avgNumVotesValue > 0) {
-                avgRatingsList.add(avgRating);
-                avgNumVotesList.add(avgNumVotesValue);
-            }
-        }
+        Arrays.stream(Genres.values())
+                .map(genre -> new AbstractMap.SimpleEntry<>(
+                        averageRatings.get(genre),
+                        averageNumVotes.get(genre)))
+                .filter(entry -> entry.getKey() != null && entry.getValue() != null && entry.getValue() > 0)
+                .forEach(entry -> {
+                    avgRatingsList.add(entry.getKey());
+                    avgNumVotesList.add(entry.getValue());
+                });
 
         return StatisticUtils.calculateCorrelation(avgRatingsList, avgNumVotesList);
     }
+
 
 }

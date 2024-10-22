@@ -62,3 +62,4 @@ replay_pid*
 
 ### Misc ###
 *.log
+/avaliacao_media_por_ano.csv
