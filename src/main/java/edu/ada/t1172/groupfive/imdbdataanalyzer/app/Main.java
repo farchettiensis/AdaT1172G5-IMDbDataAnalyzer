@@ -14,29 +14,9 @@ public class Main {
         String caminhoCSV = "src/main/resources/data.csv";
         MovieServiceImpl movieService = new MovieServiceImpl(new MovieDAO(new CSVParser(caminhoCSV)));
         List<Movie> movies = movieService.fetchAllMovies();
-//
-//        System.out.println(
-//                movieService.getTopRatedMovie(movieService.getMoviesByYear(movieService.fetchAllMovies(), 2020))
-//        );
-//
-//        System.out.println(
-//            movieService.getTopRatedMovie(
-//                    movieService.getMoviesByGenre(
-//                            movieService.fetchAllMovies(), Genres.DRAMA))
-//        );
-//
-//
-//        System.out.println(movieService.getMoviesByYear(
-//                movieService.getMoviesByGenre(movieService.fetchAllMovies(), Genres.DRAMA),
-//                1996
-//        ));
-//    }
 
-        VictorFerreiraQuestions victorFerreiraQuestions = new VictorFerreiraQuestions(movieService);
-
-        System.out.println(
-                victorFerreiraQuestions.questionOne()
-        );
+        VictorFerreiraQuestions victorFerreiraQuestions = new VictorFerreiraQuestions(movies);
+        victorFerreiraQuestions.question10();
 
         NathanQuestions nathanQuestions = new NathanQuestions(movieService);
         System.out.println("\nUnderRatedMovies:");
