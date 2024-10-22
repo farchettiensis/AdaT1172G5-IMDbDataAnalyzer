@@ -17,6 +17,9 @@ public class Main {
         MovieServiceImpl movieService = new MovieServiceImpl(new MovieDAO(new CSVParser(caminhoCSV)));
         List<Movie> movies = movieService.fetchAllMovies();
 
+        VictorFerreiraQuestions victorFerreiraQuestions = new VictorFerreiraQuestions(movies);
+        victorFerreiraQuestions.question10();
+
         VictorFariaQuestions questions = new VictorFariaQuestions(movieService);
         System.out.println(questions.getVoteRatingCorrelationForMoviesAfter(2023));
         System.out.println(questions.getGenresWithGreatestRatingVariationByDecade(1921));
@@ -27,7 +30,6 @@ public class Main {
         System.out.println("\nOverRatedMovies:");
         nathanQuestions.getOverRatedMovies(movies, 5).forEach(System.out::println);
         System.out.println("\nThe average rating over the years: " + nathanQuestions.getScoreTendencyOverYears(movies));
-
 
     }
 }
