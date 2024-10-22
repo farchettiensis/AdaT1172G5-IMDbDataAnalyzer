@@ -21,7 +21,6 @@ public class Movie extends BaseModel {
     private double averageRating;
     private int numVotes;
     private int releaseYear;
-
     @Column(name = "genres")
     private String genresString;
 

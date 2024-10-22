@@ -33,6 +33,7 @@ public class Main {
 
         RatingTendencyAnalysis nathanQuestions = new RatingTendencyAnalysis(movieService);
         nathanQuestions.performAnalysis();
+        System.out.println();
 
         HorrorGenreAnalysis perguntasFernando = new HorrorGenreAnalysis(movieService);
         perguntasFernando.performAnalysis();

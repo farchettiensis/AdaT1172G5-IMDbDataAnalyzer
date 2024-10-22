@@ -1,21 +1,14 @@
 package edu.ada.t1172.groupfive.imdbdataanalyzer.dao;
 
+import edu.ada.t1172.groupfive.imdbdataanalyzer.dao.exceptions.DAOException;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.service.MovieService;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.model.exceptions.MovieNotFoundException;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.CSVParser;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.TypedQuery;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.util.exceptions.CSVParseException;
+import jakarta.persistence.*;
 
 import java.io.IOException;
-import java.lang.classfile.TypeAnnotation;
 import java.util.List;
-
-/*
-* implementar CREATE, RETRIEVE, UPDATE, DELETE
- */
-
 public class MovieDAO {
     private final CSVParser csvParser;
 
@@ -31,56 +24,93 @@ public class MovieDAO {
         try {
             emf = Persistence.createEntityManagerFactory("IMDbData");
         } catch (Exception e) {
-            System.out.println("Erro: "+e.getMessage());
+            System.out.println("Erro ao criar EntityManagerFactory: " + e.getMessage());
         }
         this.em = emf.createEntityManager();
 
     }
 
-    public List<Movie> getAllMovies() throws IOException {
+    public List<Movie> getAllMovies() {
+        try {
         return csvParser.getAllMovies();
-    }
-
-    public List<Movie> getAllMoviesFromDB() throws IOException {
-        String jpql = "select m from Movie m";
-        TypedQuery<Movie> query = em.createQuery(jpql, Movie.class);
-        return query.getResultList();
-    }
-
-
-    public MovieDAO openTransaction() {
-        if (em == null || !em.isOpen()) {
-            em = emf.createEntityManager();
+        } catch (IOException e) {
+            throw new CSVParseException("Erro ao ler dados do CSV");
         }
-        em.getTransaction().begin();
-        return this;
     }
-    public MovieDAO closeTransaction() {
-        em.getTransaction().commit();
-        return this;
+
+    public List<Movie> getAllMoviesFromDB() {
+        try {
+            String jpql = "select m from Movie m";
+            TypedQuery<Movie> query = em.createQuery(jpql, Movie.class);
+            return query.getResultList();
+        } catch (NoResultException e) {
+            throw new MovieNotFoundException("Filmes não encontrados");
+        } catch (PersistenceException e) {
+            throw new DAOException("Erro ao obter todos os filmes");
+        }
+    }
+
+
+    public MovieDAO openTransaction() throws IllegalStateException {
+        try {
+            if (em == null || !em.isOpen()) {
+                em = emf.createEntityManager();
+            }
+            em.getTransaction().begin();
+            return this;
+        } catch (PersistenceException e) {
+            throw new DAOException("Erro ao abrir transacao");
+        }
+    }
+
+    public MovieDAO closeTransaction() throws IllegalStateException {
+        try {
+            em.getTransaction().commit();
+            return this;
+        } catch (PersistenceException e) {
+            throw new DAOException("Erro ao fechar transacao");
+        }
     }
 
     public MovieDAO save(Movie movie) {
-        em.persist(movie);
-        return this;
-    }
-    public MovieDAO update(String id, Movie updatedMovie) throws IOException {
-        Movie movieToUpdate = em.find(Movie.class, id);
-        updateData(movieToUpdate, updatedMovie);
-        em.merge(updatedMovie);
-        return this;
+        try {
+            em.persist(movie);
+            return this;
+        } catch (PersistenceException e) {
+            throw new DAOException("Erro ao salvar filme");
+        }
     }
 
-    public Movie getMovieById(String id) throws IOException {
-        Movie movie = em.find(Movie.class, id);
-        if (movie == null) {
-            throw new IOException("Movie not found");
+    public MovieDAO update(String id, Movie updatedMovie) {
+        try {
+            Movie movieToUpdate = em.find(Movie.class, id);
+            updateData(movieToUpdate, updatedMovie);
+            em.merge(updatedMovie);
+            return this;
+        } catch (PersistenceException e) {
+            throw new DAOException("Erro ao atualizar filme");
         }
-        return movie;
     }
+
+    public Movie getMovieById(String id) {
+        try {
+            Movie movie = em.find(Movie.class, id);
+            if (movie == null) {
+                throw new MovieNotFoundException("Filme nao encontrado");
+            }
+            return movie;
+        } catch (PersistenceException e) {
+            throw new DAOException("Erro ao obter o filme");
+        }
+    }
+
     public MovieDAO delete(Movie movie) {
-        em.remove(movie);
-        return this;
+        try {
+            em.remove(movie);
+            return this;
+        } catch (PersistenceException e) {
+            throw new DAOException("Erro ao deletar filme");
+        }
     }
 
     public void closeDAO() {
@@ -89,7 +119,7 @@ public class MovieDAO {
         }
     }
 
-    private void updateData(Movie movieToUpdate,Movie updatedMovie) {
+    private void updateData(Movie movieToUpdate, Movie updatedMovie) {
         movieToUpdate.setTitle(updatedMovie.getTitle());
         movieToUpdate.setAverageRating(updatedMovie.getAverageRating());
         movieToUpdate.setNumVotes(updatedMovie.getNumVotes());

@@ -1,8 +1,11 @@
 package edu.ada.t1172.groupfive.imdbdataanalyzer.service;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.dao.MovieDAO;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.dao.exceptions.DAOException;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.enums.Genres;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.model.exceptions.MovieNotFoundException;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.service.exceptions.MovieServiceException;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.StatisticUtils;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.exceptions.CSVParseException;
 
@@ -27,42 +30,59 @@ public class MovieServiceImpl implements MovieService {
                 movieDAO.save(movie);
             }
             movieDAO.closeTransaction();
-        } catch (Exception e) {
+        } catch (CSVParseException e) {
             if (movieDAO.getEm().getTransaction().isActive()) {
                 movieDAO.getEm().getTransaction().rollback();
             }
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     @Override
     public Movie saveMovie(Movie movie) {
-        movieDAO.openTransaction().save(movie).closeTransaction();
-        return movie;
+        try {
+            movieDAO.openTransaction().save(movie).closeTransaction();
+            return movie;
+        } catch (DAOException | IllegalStateException e) {
+            if (movieDAO.getEm().getTransaction().isActive()) {
+                movieDAO.getEm().getTransaction().rollback();
+            }
+            throw new MovieServiceException(e.getMessage(),e);
+        }
     }
 
     @Override
     public Movie getMovieById(String id) {
         try {
             return movieDAO.getMovieById(id);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (DAOException | MovieNotFoundException e) {
+            throw new MovieServiceException(e.getMessage(),e);
         }
     }
 
     @Override
     public void deleteMovie(Movie movie) {
-        movieDAO.openTransaction().delete(movie).closeTransaction();
+        try {
+            movieDAO.openTransaction().delete(movie).closeTransaction();
+        } catch (DAOException e) {
+            if (movieDAO.getEm().getTransaction().isActive()) {
+                movieDAO.getEm().getTransaction().rollback();
+            }
+            throw new MovieServiceException(e.getMessage(),e);
+        }
     }
 
     @Override
     public Movie updateMovie(String id, Movie movie) {
         try {
-            movieDAO.openTransaction().update(id,movie).closeTransaction();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            movieDAO.openTransaction().update(id, movie).closeTransaction();
+            return movie;
+        } catch (DAOException | IllegalStateException e) {
+            if (movieDAO.getEm().getTransaction().isActive()) {
+                movieDAO.getEm().getTransaction().rollback();
+            }
+            throw new MovieServiceException(e.getMessage(),e);
         }
-        return movie;
     }
 
     @Override
@@ -74,8 +94,8 @@ public class MovieServiceImpl implements MovieService {
     public List<Movie> fetchAllMovies() {
         try {
             return movieDAO.getAllMoviesFromDB();
-        } catch (IOException e) {
-            throw new CSVParseException("Erro ao fazer parse: " + e.getMessage());
+        } catch (CSVParseException e) {
+            throw new MovieServiceException(e.getMessage(),e);
         }
     }
 
@@ -83,8 +103,8 @@ public class MovieServiceImpl implements MovieService {
     public List<Movie> fetchAllMoviesFromDB() {
         try {
             return movieDAO.getAllMoviesFromDB();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (CSVParseException e) {
+            throw new MovieServiceException(e.getMessage(),e);
         }
     }
 
