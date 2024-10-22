@@ -48,7 +48,7 @@ public class HorrorGenreAnalysis {
             Double avgRating = averageRatings.get(genre);
             Double avgVotes = averageNumVotes.get(genre);
             if (avgRating != null && avgVotes != null && avgVotes > 0) {
-                System.out.printf("Gênero: %s, Média de avaliação: %.2f, Média de votos: %.2f%n",
+                System.out.printf("Gênero: %-15s Média de avaliação: %-10.2f Média de votos: %.2f%n",
                         genre, avgRating, avgVotes);
             }
         }
@@ -72,7 +72,7 @@ public class HorrorGenreAnalysis {
             Genres genre = entry.getKey();
             Double avgRating = entry.getValue();
             Double avgVotes = averageNumVotes.get(genre);
-            System.out.printf("Gênero: %s, Avaliação Média: %.2f, Média de Votos: %.2f%n",
+            System.out.printf("Gênero: %-15s Avaliação Média: %-10.2f Média de Votos: %.2f%n",
                     genre, avgRating, avgVotes);
         }
 
@@ -81,7 +81,7 @@ public class HorrorGenreAnalysis {
         for (Map.Entry<Genres, Double> entry : topGenresByRating) {
             Genres genre = entry.getKey();
             Double avgVotes = averageNumVotes.get(genre);
-            System.out.printf("Gênero: %s, Média de Votos: %.2f%n", genre, avgVotes);
+            System.out.printf("Gênero: %-15s Média de Votos: %.2f%n", genre, avgVotes);
             if (horrorAvgVotes >= avgVotes) {
                 receivesFewerVotes = false;
             }

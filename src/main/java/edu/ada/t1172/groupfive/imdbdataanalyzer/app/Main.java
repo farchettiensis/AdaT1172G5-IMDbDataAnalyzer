@@ -67,7 +67,5 @@ public class Main {
         System.out.println(movieService.getMovieById("tt0111161"));
 
         movieService.deleteMovie(movieService.getMovieById("tt0068646"));
-
-
     }
 }
