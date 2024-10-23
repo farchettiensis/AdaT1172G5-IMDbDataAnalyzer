@@ -1,29 +1,31 @@
-package edu.ada.t1172.groupfive.imdbdataanalyzer.questions;
+package edu.ada.t1172.groupfive.imdbdataanalyzer.service.questions;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.enums.Genres;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.service.MovieService;
 
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class VictorFariaQuestions {
 
-    private MovieService service;
+    private final MovieService service;
 
     public VictorFariaQuestions(MovieService service) {
         this.service = service;
     }
 
-    public Double getVoteRatingCorrelationForMoviesAfter(int year){
-        if(year < 1920 || year > 2024)
+    public Double getVoteRatingCorrelationForMoviesAfter(int year) {
+        if (year < 1920 || year > 2024)
             return null;
 
         List<Movie> filteredMovies = service.fetchAllMovies()
                 .stream().filter(m -> m.getReleaseYear() >= year)
                 .toList();
         int n = filteredMovies.size();
-        if(n == 0) return null;
+        if (n == 0) return null;
 
         double sumVotes = filteredMovies.stream()
                 .mapToDouble(Movie::getNumVotes)
@@ -52,8 +54,8 @@ public class VictorFariaQuestions {
         return denominator == 0 ? null : numerator / denominator;
     }
 
-    public Genres getGenresWithGreatestRatingVariationByDecade(int decade){
-        if(decade < 1920 || decade > 2024)
+    public Genres getGenresWithGreatestRatingVariationByDecade(int decade) {
+        if (decade < 1920 || decade > 2024)
             return null;
 
         List<Genres> listOfGenres = Arrays.stream(Genres.values()).toList();
@@ -63,24 +65,24 @@ public class VictorFariaQuestions {
 
         Map<Genres, Double> mapGenresToRating = new HashMap<>();
 
-        for(Genres genre : listOfGenres){
+        for (Genres genre : listOfGenres) {
             mapGenresToRating.put(genre, getRatingVariation(groupByGenre(filteredMovies, genre)));
         }
 
         List<Double> rating = mapGenresToRating.values().stream().toList();
-        for(int i = 0; i<rating.size(); i++){
-            if(rating.get(i).equals(mapGenresToRating.get(listOfGenres.get(i)))){
+        for (int i = 0; i < rating.size(); i++) {
+            if (rating.get(i).equals(mapGenresToRating.get(listOfGenres.get(i)))) {
                 return listOfGenres.get(i);
             }
         }
         return null;
     }
 
-    private List<Movie> groupByGenre(List<Movie> movies, Genres genre){
+    private List<Movie> groupByGenre(List<Movie> movies, Genres genre) {
         return movies.stream().filter(m -> m.getGenres().contains(genre)).toList();
     }
 
-    private Double getRatingVariation(List<Movie> movies){
+    private Double getRatingVariation(List<Movie> movies) {
         double min = movies.stream()
                 .map(Movie::getAverageRating)
                 .reduce(Double::min).orElse(Double.NaN);

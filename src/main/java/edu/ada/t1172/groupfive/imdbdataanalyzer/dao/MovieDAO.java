@@ -3,21 +3,18 @@ package edu.ada.t1172.groupfive.imdbdataanalyzer.dao;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.dao.exceptions.DAOException;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.exceptions.MovieNotFoundException;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.util.CSVParser;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.util.exceptions.CSVParseException;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.utils.CSVParser;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.utils.exceptions.CSVParseException;
 import jakarta.persistence.*;
 
 import java.io.IOException;
 import java.util.List;
+
 public class MovieDAO {
     private final CSVParser csvParser;
 
     private EntityManagerFactory emf;
     private EntityManager em;
-
-    public EntityManager getEm() {
-        return em;
-    }
 
     public MovieDAO(CSVParser csvParser) {
         this.csvParser = csvParser;
@@ -30,9 +27,13 @@ public class MovieDAO {
 
     }
 
+    public EntityManager getEm() {
+        return em;
+    }
+
     public List<Movie> getAllMovies() {
         try {
-        return csvParser.getAllMovies();
+            return csvParser.getAllMovies();
         } catch (IOException e) {
             throw new CSVParseException("Erro ao ler dados do CSV");
         }

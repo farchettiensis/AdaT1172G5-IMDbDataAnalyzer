@@ -1,10 +1,10 @@
-package edu.ada.t1172.groupfive.imdbdataanalyzer.questions;
+package edu.ada.t1172.groupfive.imdbdataanalyzer.service.questions;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.enums.Genres;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.service.MovieService;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.util.FileUtils;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.util.StatisticUtils;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.utils.FileUtils;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.utils.StatisticUtils;
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 
 import java.util.List;

@@ -1,8 +1,11 @@
-package edu.ada.t1172.groupfive.imdbdataanalyzer.questions;
+package edu.ada.t1172.groupfive.imdbdataanalyzer.service.questions;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.enums.Genres;
-import java.util.*;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class VictorFerreiraQuestions {

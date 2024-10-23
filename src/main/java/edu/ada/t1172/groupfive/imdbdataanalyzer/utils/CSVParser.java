@@ -1,4 +1,4 @@
-package edu.ada.t1172.groupfive.imdbdataanalyzer.util;
+package edu.ada.t1172.groupfive.imdbdataanalyzer.utils;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.enums.Genres;
