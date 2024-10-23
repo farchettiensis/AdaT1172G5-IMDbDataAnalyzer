@@ -3,7 +3,6 @@
 Projeto final do módulo de **Programação Funcional em Java**. Trilha **Backend de Java** da **Ada**, Turma #1172, grupo
 cinco. O dataset utilizado foi
 o [IMDb Top 1000 Movies](https://www.kaggle.com/datasets/octopusteam/imdb-top-1000-movies).
-<hr>
 
 ## Índice
 
@@ -25,8 +24,6 @@ o [IMDb Top 1000 Movies](https://www.kaggle.com/datasets/octopusteam/imdb-top-10
 6. [Observações](#observações)
 7. [Contribuidores](#contribuidores)
 
-<hr>
-
 ## Descrição do Projeto
 
 O objetivo deste projeto é responder a **10 perguntas** utilizando programação funcional, realizando uma análise de
@@ -34,8 +31,6 @@ dados. Os dados escolhidos foram os filmes do **IMDb Top 1000 Movies**.
 
 A arquitetura do projeto é baseada em **camadas**, promovendo a separação de responsabilidades e facilitando a
 manutenção e escalabilidade do código.
-
-<hr>
 
 ## Tecnologias Utilizadas
 
@@ -45,14 +40,10 @@ manutenção e escalabilidade do código.
 - **H2 Database**;
 - **Hibernate**.
 
-<hr>
-
 ## Como Executar o Projeto
 
 Para visualizar a análise, basta executar a classe `Main` localizada no pacote `app`. Os resultados serão impressos no
 terminal.
-
-<hr>
 
 ## Estrutura do Projeto
 
@@ -184,8 +175,6 @@ public class MovieDAO {
 Contém testes unitários nos pacotes `dao`, `service` e `utils`. Foram escritos apenas alguns testes básicos, porque não
 era o foco do projeto.
 
-<hr>
-
 ## Como as Classes Respondem às Perguntas
 
 As perguntas foram organizadas conforme as classes responsáveis por respondê-las:
@@ -196,8 +185,6 @@ As perguntas foram organizadas conforme as classes responsáveis por respondê-l
 - **Perguntas 8 e 9**: Respondidas pela classe `VictorFariaQuestions`.
 - **Pergunta 10**: Respondida pela classe `VictorFerreiraQuestions`.
 
-<hr>
-
 ## Observações
 
 - **Execução da Análise**: Para visualizar a análise, execute a classe `Main` no pacote `app`. Os resultados serão
@@ -206,8 +193,6 @@ As perguntas foram organizadas conforme as classes responsáveis por respondê-l
   H2 Database e o Hibernate.
 - **Banco de Dados**: O projeto utiliza o H2 Database para armazenar os dados dos filmes. O servidor H2 é iniciado
   automaticamente ao executar a classe `Main`.
-
-<hr>
 
 ## Contribuidores
 
