@@ -1,4 +1,6 @@
-# Projeto de Análise de Dados com Programação Funcional em Java - IMDb Top 1000 Movies
+# Projeto de Análise de Dados com Programação Funcional em Java
+
+### IMDb Top 1000 Movies
 
 Projeto final do módulo de **Programação Funcional em Java**. Trilha **Backend de Java** da **Ada**, Turma #1172, grupo
 cinco.
@@ -14,7 +16,7 @@ cinco.
         - [Pacote `app`](#pacote-app)
         - [Pacote `database`](#pacote-database)
         - [Pacote `model`](#pacote-model)
-        - [Pacote `utils`](#pacote-util)
+        - [Pacote `utils`](#pacote-utils)
         - [Pacote `service`](#pacote-service)
             - [Pacote `questions`](#pacote-questions)
         - [Pacote `dao`](#pacote-dao)
@@ -180,7 +182,8 @@ public class MovieDAO {
 
 ### Pacote `test`
 
-Contém testes unitários para garantir a qualidade e corretude do código nos pacotes `dao`, `service` e `util`.
+Contém testes unitários nos pacotes `dao`, `service` e `utils`. Foram escritos apenas alguns testes básicos, porque não
+era o foco do projeto.
 
 <hr>
 
@@ -207,7 +210,9 @@ As perguntas foram organizadas conforme as classes responsáveis por respondê-l
 
 <hr>
 
-**Desenvolvido por:**
+## Contribuidores
+
+**Desenvolvido por**:
 
 - Grupo 5:
     - [Victor Ferreira](https://github.com/VictorFerreiraS);
@@ -215,6 +220,7 @@ As perguntas foram organizadas conforme as classes responsáveis por respondê-l
     - [Lothar Nunnenkamp](https://github.com/LotharNunnenkamp);
     - [Nathan Lucas](https://github.com/nathanllss);
     - [Fernando Archetti](https://github.com/farchettiensis).
+
 - Turma #1172 - Ada, Trilha Backend Java.
 - Santander Coders 2024.
 
