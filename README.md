@@ -1,9 +1,8 @@
 # Projeto de Análise de Dados com Programação Funcional em Java
 
-### IMDb Top 1000 Movies
-
 Projeto final do módulo de **Programação Funcional em Java**. Trilha **Backend de Java** da **Ada**, Turma #1172, grupo
-cinco.
+cinco. O dataset utilizado foi
+o [IMDb Top 1000 Movies](https://www.kaggle.com/datasets/octopusteam/imdb-top-1000-movies).
 <hr>
 
 ## Índice
