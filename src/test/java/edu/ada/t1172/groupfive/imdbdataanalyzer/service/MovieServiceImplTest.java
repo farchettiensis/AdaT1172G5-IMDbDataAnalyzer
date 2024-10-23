@@ -22,6 +22,8 @@ public class MovieServiceImplTest {
 
         Map<Genres, Double> averageRatings = movieService.getAverageRatingPerGenre(movies);
 
+        int totalGenres = Genres.values().length;
+
         assertEquals(2, averageRatings.size());
         assertEquals(7.0, averageRatings.get(Genres.ACTION));
         assertEquals(8.5, averageRatings.get(Genres.DRAMA));

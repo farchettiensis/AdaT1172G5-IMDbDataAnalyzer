@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class CSVParserTest {
-
     @Test
     void testGetAllMovies() throws IOException {
         String testCsvPath = "src/test/resources/test_movies.csv";

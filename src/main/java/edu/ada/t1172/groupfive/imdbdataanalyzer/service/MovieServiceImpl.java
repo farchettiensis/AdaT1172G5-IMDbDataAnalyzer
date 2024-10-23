@@ -9,7 +9,6 @@ import edu.ada.t1172.groupfive.imdbdataanalyzer.service.exceptions.MovieServiceE
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.StatisticUtils;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.util.exceptions.CSVParseException;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -47,7 +46,7 @@ public class MovieServiceImpl implements MovieService {
             if (movieDAO.getEm().getTransaction().isActive()) {
                 movieDAO.getEm().getTransaction().rollback();
             }
-            throw new MovieServiceException(e.getMessage(),e);
+            throw new MovieServiceException(e.getMessage(), e);
         }
     }
 
@@ -56,7 +55,7 @@ public class MovieServiceImpl implements MovieService {
         try {
             return movieDAO.getMovieById(id);
         } catch (DAOException | MovieNotFoundException e) {
-            throw new MovieServiceException(e.getMessage(),e);
+            throw new MovieServiceException(e.getMessage(), e);
         }
     }
 
@@ -68,7 +67,7 @@ public class MovieServiceImpl implements MovieService {
             if (movieDAO.getEm().getTransaction().isActive()) {
                 movieDAO.getEm().getTransaction().rollback();
             }
-            throw new MovieServiceException(e.getMessage(),e);
+            throw new MovieServiceException(e.getMessage(), e);
         }
     }
 
@@ -81,7 +80,7 @@ public class MovieServiceImpl implements MovieService {
             if (movieDAO.getEm().getTransaction().isActive()) {
                 movieDAO.getEm().getTransaction().rollback();
             }
-            throw new MovieServiceException(e.getMessage(),e);
+            throw new MovieServiceException(e.getMessage(), e);
         }
     }
 
@@ -95,7 +94,7 @@ public class MovieServiceImpl implements MovieService {
         try {
             return movieDAO.getAllMoviesFromDB();
         } catch (CSVParseException e) {
-            throw new MovieServiceException(e.getMessage(),e);
+            throw new MovieServiceException(e.getMessage(), e);
         }
     }
 
@@ -104,22 +103,25 @@ public class MovieServiceImpl implements MovieService {
         try {
             return movieDAO.getAllMoviesFromDB();
         } catch (CSVParseException e) {
-            throw new MovieServiceException(e.getMessage(),e);
+            throw new MovieServiceException(e.getMessage(), e);
         }
     }
 
     @Override
     public Map<Genres, Double> getAverageRatingPerGenre(List<Movie> movies) {
-        return Arrays.stream(Genres.values())
+        return movies.stream()
+                .flatMap(movie -> movie.getGenres().stream())
+                .distinct()
                 .collect(Collectors.toMap(
                         genre -> genre,
                         genre -> movies.stream()
                                 .filter(movie -> movie.getGenres().contains(genre))
-                                .mapToDouble(movie -> movie.getAverageRating())
+                                .mapToDouble(Movie::getAverageRating)
                                 .average()
                                 .orElse(0.0)
                 ));
     }
+
 
     @Override
     public Map<Genres, Double> getAverageNumVotesPerGenre(List<Movie> movies) {
