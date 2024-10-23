@@ -1,4 +1,4 @@
-package edu.ada.t1172.groupfive.imdbdataanalyzer.util;
+package edu.ada.t1172.groupfive.imdbdataanalyzer.utils;
 
 import java.util.Collections;
 import java.util.List;

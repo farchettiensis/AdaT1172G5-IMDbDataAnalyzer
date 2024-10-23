@@ -1,7 +1,7 @@
 package edu.ada.t1172.groupfive.imdbdataanalyzer.dao;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.util.CSVParser;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.utils.CSVParser;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

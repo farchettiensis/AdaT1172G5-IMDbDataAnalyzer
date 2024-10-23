@@ -1,8 +1,8 @@
-package edu.ada.t1172.groupfive.imdbdataanalyzer.questions;
+package edu.ada.t1172.groupfive.imdbdataanalyzer.service.questions;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.service.MovieService;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.util.StatisticUtils;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.utils.StatisticUtils;
 
 import java.util.Comparator;
 import java.util.List;

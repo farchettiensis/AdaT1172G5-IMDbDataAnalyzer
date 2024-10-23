@@ -1,4 +1,4 @@
-package edu.ada.t1172.groupfive.imdbdataanalyzer.util.exceptions;
+package edu.ada.t1172.groupfive.imdbdataanalyzer.utils.exceptions;
 
 public class CSVParseException extends RuntimeException {
 

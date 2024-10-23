@@ -1,12 +1,12 @@
 package edu.ada.t1172.groupfive.imdbdataanalyzer.app;
 
 import edu.ada.t1172.groupfive.imdbdataanalyzer.dao.MovieDAO;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.database.H2ServerConfig;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.enums.Genres;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.questions.*;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.util.H2ServerConfig;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.service.MovieServiceImpl;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.util.CSVParser;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.service.questions.*;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.utils.CSVParser;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -14,8 +14,8 @@ import java.util.Set;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-
-        H2ServerConfig.start(); // inicializacao do BD
+        String webPort = "8082";
+        H2ServerConfig.start(webPort); // inicializacao do BD
         String caminhoCSV = "src/main/resources/data.csv";
         MovieServiceImpl movieService = new MovieServiceImpl(new MovieDAO(new CSVParser(caminhoCSV)));
 
@@ -50,7 +50,7 @@ public class Main {
 
 
         /*
-        * Teste de operacoes CRUD do banco de dados (BD)
+         * Teste de operacoes CRUD do banco de dados (BD)
          */
         List<Movie> filmes = movieService.fetchAllMovies();
         filmes.stream().limit(20).forEach(System.out::println);

@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
-// TODO: classe criada para usar no futuro caso utilizemos banco de dados
 @Entity
 @Table(name = "movies")
 public class Movie extends BaseModel {
@@ -57,6 +56,9 @@ public class Movie extends BaseModel {
         return genres;
     }
 
+    public void setGenres(Set<Genres> genres) {
+        this.genres = genres;
+    }
 
     public double getAverageRating() {
         return averageRating;
@@ -81,10 +83,6 @@ public class Movie extends BaseModel {
     public void setReleaseYear(int releaseYear) {
         this.releaseYear = releaseYear;
 
-    }
-
-    public void setGenres(Set<Genres> genres) {
-        this.genres = genres;
     }
 
     public String getGenresString() {

@@ -6,8 +6,8 @@ import edu.ada.t1172.groupfive.imdbdataanalyzer.model.Movie;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.enums.Genres;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.model.exceptions.MovieNotFoundException;
 import edu.ada.t1172.groupfive.imdbdataanalyzer.service.exceptions.MovieServiceException;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.util.StatisticUtils;
-import edu.ada.t1172.groupfive.imdbdataanalyzer.util.exceptions.CSVParseException;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.utils.StatisticUtils;
+import edu.ada.t1172.groupfive.imdbdataanalyzer.utils.exceptions.CSVParseException;
 
 import java.util.*;
 import java.util.stream.Collectors;
